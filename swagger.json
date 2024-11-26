@@ -1,0 +1,72 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Pandoc API",
+    "description": "A simple Pandoc conversion service via REST API.",
+    "version": "1.0"
+  },
+  "basePath": "/",
+  "schemes": ["http"],
+  "consumes": ["multipart/form-data"],
+  "produces": ["application/json"],
+  "paths": {
+    "/convert": {
+      "post": {
+        "summary": "Convert content from one format to another",
+        "parameters": [
+          {
+            "name": "file",
+            "in": "formData",
+            "type": "file",
+            "description": "The file to convert",
+            "required": true
+          },
+          {
+            "name": "input_format",
+            "in": "formData",
+            "type": "string",
+            "description": "Input format of the content",
+            "required": true
+          },
+          {
+            "name": "output_format",
+            "in": "formData",
+            "type": "string",
+            "description": "Output format for the converted content",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Converted content in the specified format",
+            "schema": {
+              "$ref": "#/definitions/ConversionResponse"
+            }
+          },
+          "500": {
+            "description": "Error during conversion",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ConversionResponse": {
+      "properties": {
+        "converted_content": {
+          "type": "string"
+        }
+      }
+    },
+    "ErrorResponse": {
+      "properties": {
+        "error": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
